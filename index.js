@@ -210,14 +210,14 @@ app.get('/api/users/:id', async (req, res) => {
         // 1. עיבוד ה-Stake האישי לכל הימור שלקחתי
         userData.takenBets = userData.takenBets.map(bet => {
             let myPersonalStake = 0;
-            let mySelectedOptionName = "";
+            let mySelectedOptionName = "default";
             let mySelectedOptionOdds = 0;
 
             bet.options.forEach(opt => {
                 const myBetOnThisOption = opt.takers.find(t => t.user.toString() === req.params.id);
                 if (myBetOnThisOption) {
                     myPersonalStake += myBetOnThisOption.amount;
-                    mySelectedOptionName = opt.name;
+                    mySelectedOptionName = opt.optionName;
                     mySelectedOptionOdds = opt.odds; // שומרים את היחס של האופציה שנבחרה
                 }
             });
