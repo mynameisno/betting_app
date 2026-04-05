@@ -191,8 +191,13 @@ app.get('/api/users/:id', async (req, res) => {
         const user = await User.findById(req.params.id)
             .populate('clubs')
             .populate('createdBets')
-            .populate('debts')
-            .populate('credits')
+            .populate({ 
+                path: 'debts',
+                populate: { path: 'creditor', select: 'username' }
+             })
+            .populate( {path: 'credits',
+                populate: { path: 'debtor', select: 'username' }
+            })
             .populate({
                 path: 'takenBets',
                 populate: { path: 'creator', select: 'username' }
